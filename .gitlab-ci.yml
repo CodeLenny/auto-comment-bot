@@ -1,5 +1,6 @@
 stages:
   - test
+  - deploy
 
 test-node-9:
   stage: test
@@ -18,3 +19,9 @@ test-node-8:
     - npm install
   script:
     - npm test
+
+glitch:
+  stage: deploy
+  variables:
+    GITHUB_REPO: CodeLenny/auto-comment-bot
+    GLITCH_DOMAIN: auto-comment-bot
