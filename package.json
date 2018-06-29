@@ -1,0 +1,40 @@
+{
+  "name": "auto-comment-bot",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Ryan Leonard",
+  "license": "MIT",
+  "repository": "https://github.com/CodeLenny/auto-comment-bot.git",
+  "homepage": "https://github.com/CodeLenny/auto-comment-bot",
+  "bugs": "https://github.com/CodeLenny/auto-comment-bot/issues",
+  "keywords": [
+    "probot",
+    "github",
+    "probot-app"
+  ],
+  "scripts": {
+    "dev": "nodemon --exec \"npm start\"",
+    "start": "probot run ./index.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch --notify --notifyMode=change --coverage"
+  },
+  "jest": {
+    "coverageReporters": [
+      "text",
+      "html"
+    ]
+  },
+  "dependencies": {
+    "fluture": "^8.0.2",
+    "front-matter": "^2.3.0",
+    "probot": "^7.0.0"
+  },
+  "devDependencies": {
+    "jest": "^22.4.3",
+    "nodemon": "^1.17.2",
+    "smee-client": "^1.0.2"
+  },
+  "engines": {
+    "node": ">= 8.3.0"
+  }
+}
