@@ -25,3 +25,7 @@ glitch:
   variables:
     GITHUB_REPO: CodeLenny/auto-comment-bot
     GLITCH_DOMAIN: auto-comment-bot
+  script:
+    - npx glitch-deploy
+  only:
+    - master
