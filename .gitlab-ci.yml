@@ -6,6 +6,7 @@ test-node-9:
   image: node:9-alpine
   before_script:
     - npm install
+    - apk install --no-cache git
   script:
     - npm test
     - $(npm bin)/codecov
