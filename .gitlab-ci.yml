@@ -1,0 +1,19 @@
+stages:
+  - test
+
+test-node-9:
+  stage: test
+  image: node:9-alpine
+  before_script:
+    - npm install
+  script:
+    - npm test
+    - codecov
+
+test-node-8:
+  stage: test
+  image: node:8-alpine
+  before_script:
+    - npm install
+  script:
+    - npm test
