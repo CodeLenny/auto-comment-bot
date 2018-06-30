@@ -113,4 +113,10 @@ module.exports = app => {
     res.json(packageMetadata);
   });
 
+  meta.get("/version.json", (req, res) => {
+    res.json({
+      version: packageMetadata.version,
+    });
+  });
+
 }

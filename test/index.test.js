@@ -228,6 +228,21 @@ describe("auto-comment-bot", () => {
 
     });
 
+    describe("/version.json", () => {
+
+      test("returns version", () => {
+        const application = express();
+        application.use(app.router);
+        return request(application)
+          .get("/meta/version.json")
+          .expect(200)
+          .then(res => {
+            expect(typeof res.body.version).toEqual("string");
+          });
+      });
+
+    });
+
   });
 
 });
