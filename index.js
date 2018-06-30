@@ -132,6 +132,6 @@ module.exports = app => {
       .map(data => res.json(data))
       .mapRej(err => res.status(500).send("Error"))
       .promise();
-  })
+  });
 
 }
