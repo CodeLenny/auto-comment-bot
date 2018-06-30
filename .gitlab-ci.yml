@@ -22,7 +22,7 @@ test-node-8:
 
 glitch:
   stage: deploy
-  image: node:9-alpine
+  image: node:9
   variables:
     GITHUB_REPO: CodeLenny/auto-comment-bot
     GLITCH_DOMAIN: auto-comment-bot
