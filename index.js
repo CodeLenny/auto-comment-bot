@@ -6,6 +6,7 @@ const ejs = require("ejs");
 const head = require("./lib/head");
 const filterTemplateWhen = require("./lib/filterTemplateWhen");
 const lastModification = require("./lib/lastModification");
+const commitsSinceDate = require("./lib/commitsSinceDate");
 const packageMetadata = require("./package.json");
 
 const TEMPLATE_FILE = /^AUTO_COMMENT/;
@@ -131,6 +132,22 @@ module.exports = app => {
       })
       .map(data => res.json(data))
       .mapRej(err => res.status(500).send("Error"))
+      .promise();
+  });
+
+  meta.get("/outdated/commits.svg", (req, res) => {
+    return commitsSinceDate("CodeLenny", "auto-comment-bot", lastModification())
+      .map(commits => commits.length)
+      .map(count => {
+        if(count === 0) {
+          return "up_to_date-brightgreen";
+        }
+        return `${count}_commits_out_of_date-` + (count < 10 ? "yellow" : "red");
+      })
+      .mapRej(err => `unknown-red`)
+      .map(right => `Deployment-${right}`)
+      .map(status => `https://img.shields.io/badge/${status}.svg`)
+      .map(url => res.redirect(url))
       .promise();
   });
 
