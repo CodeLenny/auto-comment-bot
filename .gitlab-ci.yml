@@ -29,7 +29,7 @@ glitch:
     npm_config_unsafe_perm: "true"
   before_script:
     - apt-get update
-    - apt-get install libsecret-1-dev
+    - apt-get install -y libsecret-1-dev
   script:
     - npx glitch-deploy
   only:
