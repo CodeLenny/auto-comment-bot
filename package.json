@@ -21,10 +21,12 @@
   "jest": {
     "coverageReporters": [
       "text",
-      "html"
+      "html",
+      "lcovonly"
     ]
   },
   "dependencies": {
+    "ejs": "^2.6.1",
     "fluture": "^8.0.2",
     "front-matter": "^2.3.0",
     "probot": "^7.0.0"

@@ -1,5 +1,7 @@
 const Future = require("fluture");
+const path = require("path");
 const fm = require("front-matter");
+const ejs = require("ejs");
 const head = require("./lib/head");
 
 const TEMPLATE_FILE = /^AUTO_COMMENT/;
@@ -34,8 +36,13 @@ function getAllTemplates(context) {
 }
 
 function renderTemplate(context, template, data) {
+  let body = template.body;
+  const extension = path.extname(template.path);
+  if(extension === ".ejs") {
+    body = ejs.render(body, data);
+  }
   return Future.of({
-    body: template.body,
+    body,
   });
 }
 
