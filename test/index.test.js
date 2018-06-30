@@ -1,3 +1,5 @@
+const request = require("supertest");
+const express = require("express");
 const { Application } = require("probot");
 const bunyan = require("bunyan");
 const stripIndent = require("strip-indent");
@@ -204,6 +206,26 @@ describe("auto-comment-bot", () => {
     test("doesn't post on pull requests", async () => {
       await app.receive(pullRequestOpenedEvent);
       expect(github.pullRequests.createComment).not.toHaveBeenCalled();
+    });
+
+  });
+
+  describe("/meta", () => {
+
+    describe("/package.json", () => {
+
+      test("returns manifest", () => {
+        const application = express();
+        application.use(app.router);
+        return request(application)
+          .get("/meta/package.json")
+          .expect(200)
+          .then(res => {
+            expect(typeof res.body).toEqual("object");
+            expect(res.body.name).toEqual("auto-comment-bot");
+          });
+      });
+
     });
 
   });

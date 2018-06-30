@@ -4,6 +4,7 @@ const fm = require("front-matter");
 const ejs = require("ejs");
 const head = require("./lib/head");
 const filterTemplateWhen = require("./lib/filterTemplateWhen");
+const packageMetadata = require("./package.json");
 
 const TEMPLATE_FILE = /^AUTO_COMMENT/;
 
@@ -105,6 +106,11 @@ module.exports = app => {
         return Future.of();
       }))
       .promise();
+  });
+
+  const meta = app.route("/meta");
+  meta.get("/package.json", (req, res) => {
+    res.json(packageMetadata);
   });
 
 }
