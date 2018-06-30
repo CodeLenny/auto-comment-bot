@@ -125,4 +125,16 @@ describe("auto-comment-bot", () => {
     expect(github.issues.createComment).toHaveBeenCalledTimes(1);
   });
 
+  test("compiles EJS templates", async () => {
+    mockContent.add(
+      "d6cd1e2bd19e03a81132a23b2025920577f84e37",
+      ".github/AUTO_COMMENT.md.ejs",
+      "Hello <%= payload.issue.title %>"
+    );
+    await app.receive(issueOpenedEvent);
+    expect(github.issues.createComment).toHaveBeenCalledTimes(1);
+    const comment = github.issues.createComment.mock.calls[0][0];
+    expect(comment.body).toEqual("Hello Testing the autoresponder");
+  });
+
 });
