@@ -94,4 +94,5 @@ glitch:
   script:
     - npx glitch-deploy
   only:
-    - master
+    - nothing-for-now
+    #- master
