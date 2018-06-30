@@ -137,4 +137,40 @@ describe("auto-comment-bot", () => {
     expect(comment.body).toEqual("Hello Testing the autoresponder");
   });
 
+  describe("variable insertion", async () => {
+
+    let template;
+
+    beforeEach(() => {
+      template = `
+        <%= payload.issue.title %>
+        <%= action %>
+      `;
+      mockContent.add(
+        "d6cd1e2bd19e03a81132a23b2025920577f84e37",
+        ".github/AUTO_COMMENT.md.ejs",
+        template
+      );
+    });
+
+    test("with issue creation", async () => {
+      await app.receive(issueOpenedEvent);
+      const comment = github.issues.createComment.mock.calls[0][0];
+      expect(comment.body).toEqual(`
+        ${issueOpenedEvent.payload.issue.title}
+        issues.opened
+      `);
+    });
+
+    test("with pull request creation", async () => {
+      await app.receive(pullRequestOpenedEvent);
+      const comment = github.pullRequests.createComment.mock.calls[0][0];
+      expect(comment.body).toEqual(`
+        ${pullRequestOpenedEvent.payload.issue.title}
+        pull_request.opened
+      `);
+    });
+
+  });
+
 });
