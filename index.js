@@ -72,6 +72,7 @@ module.exports = app => {
     const isPullRequest = action === "pull_request.opened";
 
     const data = {
+      event: context.event.event,
       action,
       payload: context.payload,
     };

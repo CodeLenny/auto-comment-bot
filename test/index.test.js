@@ -145,6 +145,7 @@ describe("auto-comment-bot", () => {
     beforeEach(() => {
       template = `
         <%= payload.issue.title %>
+        <%= event %>
         <%= action %>
       `;
       mockContent.add(
@@ -159,6 +160,7 @@ describe("auto-comment-bot", () => {
       const comment = github.issues.createComment.mock.calls[0][0];
       expect(comment.body).toEqual(`
         ${issueOpenedEvent.payload.issue.title}
+        issues
         issues.opened
       `);
     });
@@ -168,6 +170,7 @@ describe("auto-comment-bot", () => {
       const comment = github.pullRequests.createComment.mock.calls[0][0];
       expect(comment.body).toEqual(`
         ${pullRequestOpenedEvent.payload.issue.title}
+        pull_request
         pull_request.opened
       `);
     });
