@@ -212,11 +212,16 @@ describe("auto-comment-bot", () => {
 
   describe("/meta", () => {
 
+    let application;
+
+    beforeEach(() => {
+      application = express();
+      application.use(app.router);
+    });
+
     describe("/package.json", () => {
 
       test("returns manifest", () => {
-        const application = express();
-        application.use(app.router);
         return request(application)
           .get("/meta/package.json")
           .expect(200)
@@ -231,13 +236,33 @@ describe("auto-comment-bot", () => {
     describe("/version.json", () => {
 
       test("returns version", () => {
-        const application = express();
-        application.use(app.router);
         return request(application)
           .get("/meta/version.json")
           .expect(200)
           .then(res => {
             expect(typeof res.body.version).toEqual("string");
+          });
+      });
+
+    });
+
+    describe("/last-deployment.json", () => {
+
+      test("provides ms since deployment", () => {
+        return request(application)
+          .get("/meta/last-deployment.json")
+          .expect(200)
+          .then(res => {
+            expect(typeof res.body.deployed).toEqual("number");
+          });
+      });
+
+      test("provides English description of time since last modification", () => {
+        return request(application)
+          .get("/meta/last-deployment.json")
+          .expect(200)
+          .then(res => {
+            expect(res.body.ago.indexOf("ago") > -1).toEqual(true);
           });
       });
 

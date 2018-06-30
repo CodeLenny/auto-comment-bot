@@ -1,9 +1,11 @@
 const Future = require("fluture");
 const path = require("path");
+const moment = require("moment");
 const fm = require("front-matter");
 const ejs = require("ejs");
 const head = require("./lib/head");
 const filterTemplateWhen = require("./lib/filterTemplateWhen");
+const lastModification = require("./lib/lastModification");
 const packageMetadata = require("./package.json");
 
 const TEMPLATE_FILE = /^AUTO_COMMENT/;
@@ -118,5 +120,18 @@ module.exports = app => {
       version: packageMetadata.version,
     });
   });
+
+  meta.get("/last-deployment.json", (req, res) => {
+    return lastModification()
+      .map(modification => {
+        return {
+          deployed: modification.getTime(),
+          ago: moment(modification).fromNow(),
+        };
+      })
+      .map(data => res.json(data))
+      .mapRej(err => res.status(500).send("Error"))
+      .promise();
+  })
 
 }
