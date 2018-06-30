@@ -64,7 +64,7 @@ module.exports = app => {
     const isPullRequest = action === "pull_request.opened";
 
     const data = {
-
+      payload: context.payload,
     };
 
     return getAllTemplates(context)
