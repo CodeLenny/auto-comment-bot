@@ -1,5 +1,5 @@
 {
-  "event": "pull_request.opened",
+  "event": "pull_request",
   "payload": {
     "action": "opened",
     "issue": {
