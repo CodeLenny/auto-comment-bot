@@ -26,7 +26,7 @@ glitch:
   variables:
     GITHUB_REPO: CodeLenny/auto-comment-bot
     GLITCH_DOMAIN: auto-comment-bot
-    npm_config_unsafe_perm: true
+    npm_config_unsafe_perm: "true"
   script:
     - npx glitch-deploy
   only:
