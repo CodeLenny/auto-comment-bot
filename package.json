@@ -21,7 +21,8 @@
   "jest": {
     "coverageReporters": [
       "text",
-      "html"
+      "html",
+      "lcovonly"
     ]
   },
   "dependencies": {
