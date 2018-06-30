@@ -3,6 +3,7 @@ const path = require("path");
 const fm = require("front-matter");
 const ejs = require("ejs");
 const head = require("./lib/head");
+const filterTemplateWhen = require("./lib/filterTemplateWhen");
 
 const TEMPLATE_FILE = /^AUTO_COMMENT/;
 
@@ -76,6 +77,7 @@ module.exports = app => {
     };
 
     return getAllTemplates(context)
+      .map(templates => templates.filter(template => filterTemplateWhen(template, data)))
       .chain(templates => Future.parallel(Infinity, templates.map(template => renderTemplate(context, template, data))))
       .chain(templates => {
         try {

@@ -1,5 +1,6 @@
 const { Application } = require("probot");
 const bunyan = require("bunyan");
+const stripIndent = require("strip-indent");
 const plugin = require("..");
 const MockGetContent = require("./helpers/MockGetContent");
 
@@ -169,6 +170,37 @@ describe("auto-comment-bot", () => {
         ${pullRequestOpenedEvent.payload.issue.title}
         pull_request.opened
       `);
+    });
+
+  });
+
+  describe("templates with 'when' limiting to issues", () => {
+
+    beforeEach(() => {
+      mockContent.add(
+        "d6cd1e2bd19e03a81132a23b2025920577f84e37",
+        ".github/AUTO_COMMENT.md",
+        stripIndent(`\
+          ---
+          when:
+            action:
+              $in:
+                - issues.opened
+          ---
+          Hello!`)
+      );
+    });
+
+    test("posts on issues", async () => {
+      await app.receive(issueOpenedEvent);
+      expect(github.issues.createComment).toHaveBeenCalled();
+      const comment = github.issues.createComment.mock.calls[0][0];
+      expect(comment.body).toEqual("Hello!");
+    });
+
+    test("doesn't post on pull requests", async () => {
+      await app.receive(pullRequestOpenedEvent);
+      expect(github.pullRequests.createComment).not.toHaveBeenCalled();
     });
 
   });
