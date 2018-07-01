@@ -26,6 +26,7 @@ test.beforeEach("create express app", t => {
 });
 
 test("when 'up to date'", t => {
+  t.plan(1);
   t.context.commits = [];
   return request(t.context.app)
     .get("/meta/outdated/commits.svg")
@@ -36,6 +37,7 @@ test("when 'up to date'", t => {
 });
 
 test("when 5 commits behind", t => {
+  t.plan(1);
   t.context.commits = [{}, {}, {}, {}, {}];
   return request(t.context.app)
     .get("/meta/outdated/commits.svg")
@@ -46,6 +48,7 @@ test("when 5 commits behind", t => {
 });
 
 test("when 10 commits behind", t => {
+  t.plan(1);
   t.context.commits = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
   return request(t.context.app)
     .get("/meta/outdated/commits.svg")

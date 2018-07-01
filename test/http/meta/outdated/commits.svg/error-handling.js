@@ -25,6 +25,7 @@ test.beforeEach("create express app", t => {
 });
 
 test("when error thrown", t => {
+  t.plan(1);
   return request(t.context.app)
     .get("/meta/outdated/commits.svg")
     .expect(302)
