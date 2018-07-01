@@ -15,8 +15,9 @@
   "scripts": {
     "dev": "nodemon --exec \"npm start\"",
     "start": "probot run ./index.js",
-    "unit-test": "jest --coverage",
-    "http-test": "nyc ava",
+    "jest-unit-test": "jest --coverage",
+    "ava-unit-test": "nyc ava test/ava/**/*.js",
+    "ava-http-test": "nyc ava test/http/**/*.js",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "jest": {

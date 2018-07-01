@@ -2,41 +2,59 @@ stages:
   - test
   - deploy
 
-unit-test 9 2:
+ava-unit-test 9 2:
   stage: test
   image: node:9-alpine
   before_script:
     - npm install
     - apk add --no-cache git
   script:
-    - npm run unit-test
-    - $(npm bin)/codecov -F unittest
+    - npm run ava-unit-test
+    - $(npm bin)/codecov -F unittest,ava
 
-unit-test 8 2:
+ava-unit-test 8 2:
   stage: test
   image: node:8-alpine
   before_script:
     - npm install
   script:
-    - npm run unit-test
+    - npm run ava-unit-test
 
-http-test 9 2:
+jest-unit-test 9 2:
   stage: test
   image: node:9-alpine
   before_script:
     - npm install
     - apk add --no-cache git
   script:
-    - npm run http-test
-    - $(npm bin)/codecov -F httptest
+    - npm run jest-unit-test
+    - $(npm bin)/codecov -F unittest,jest
 
-http-test 8 2:
+jest-unit-test 8 2:
   stage: test
   image: node:8-alpine
   before_script:
     - npm install
   script:
-    - npm run http-test
+    - npm run jest-unit-test
+
+ava-http-test 9 2:
+  stage: test
+  image: node:9-alpine
+  before_script:
+    - npm install
+    - apk add --no-cache git
+  script:
+    - npm run ava-http-test
+    - $(npm bin)/codecov -F httptest,ava
+
+ava-http-test 8 2:
+  stage: test
+  image: node:8-alpine
+  before_script:
+    - npm install
+  script:
+    - npm run ava-http-test
 
 glitch:
   stage: deploy

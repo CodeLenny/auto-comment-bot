@@ -7,6 +7,7 @@ const head = require("./lib/head");
 const filterTemplateWhen = require("./lib/filterTemplateWhen");
 const lastModification = require("./lib/lastModification");
 const commitsSinceDate = require("./lib/commitsSinceDate");
+const catchError = require("./lib/catchError");
 const packageMetadata = require("./package.json");
 
 const TEMPLATE_FILE = /^AUTO_COMMENT/;
@@ -51,15 +52,6 @@ function renderTemplate(context, template, data) {
   });
 }
 
-function catchError(selector, cb) {
-  return function(err) {
-    if(err instanceof selector || err.message === selector.message) {
-      return cb(err);
-    }
-    return err;
-  }
-}
-
 /**
  * This is the entry point for your Probot App.
  * @param {import('probot').Application} app - Probot's Application class.
@@ -97,17 +89,13 @@ module.exports = app => {
         const post = context.issue({
           body: comment.body,
         });
-        if(isIssue) {
-          return Future.tryP(() => context.github.issues.createComment(post));
-        }
-        else {
-          return Future.tryP(() => context.github.pullRequests.createComment(post));
-        }
+        // (issues.createComment works for both issues and PRs)
+        return Future.tryP(() => context.github.issues.createComment(post));
       })
       .chainRej(catchError(RangeError, err => {
         context.log.warn(err);
         return Future.of();
-      }))
+      }, (err) => Future.reject(err)))
       .promise();
   });
 
