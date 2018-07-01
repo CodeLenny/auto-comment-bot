@@ -27,12 +27,14 @@
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/test/http/"
+      "/test/http/",
+      "/test/ava/"
     ]
   },
   "ava": {
     "files": [
-      "test/http/**/*.js"
+      "test/http/**/*.js",
+      "test/ava/**/*.js"
     ]
   },
   "nyc": {
