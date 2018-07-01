@@ -10,7 +10,7 @@ unit-test-node-9:
     - apk add --no-cache git
   script:
     - npm run unit-test
-    - $(npm bin)/codecov -F unit-test
+    - $(npm bin)/codecov -F unittest
 
 unit-test-node-8:
   stage: test
@@ -28,7 +28,7 @@ http-test-node-9:
     - apk add --no-cache git
   script:
     - npm run http-test
-    - $(npm bin)/codecov -F http-test
+    - $(npm bin)/codecov -F httptest
 
 http-test-node-8:
   stage: test
