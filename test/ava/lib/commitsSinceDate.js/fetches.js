@@ -51,11 +51,12 @@ test("fetches all pages", t => {
     return Promise.resolve({data: [{}, {}]});
   };
   t.context.hasNextPage = opts => {
-    return Promise.resolve(secondPage);
+    const res = secondPage;
+    secondPage = false;
+    return res;
   };
   t.context.getNextPage = opts => {
     ++pages;
-    secondPage = false;
     return Promise.resolve({data: [{}, {}]});
   };
   return t.context.commitsSinceDate("CodeLenny", "auto-comment-bot", new Date(0))
