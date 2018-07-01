@@ -7,6 +7,7 @@ const head = require("./lib/head");
 const filterTemplateWhen = require("./lib/filterTemplateWhen");
 const lastModification = require("./lib/lastModification");
 const commitsSinceDate = require("./lib/commitsSinceDate");
+const catchError = require("./lib/catchError");
 const packageMetadata = require("./package.json");
 
 const TEMPLATE_FILE = /^AUTO_COMMENT/;
@@ -49,18 +50,6 @@ function renderTemplate(context, template, data) {
   return Future.of({
     body,
   });
-}
-
-function catchError(selector, cb, errCb = null) {
-  if(!errCb) {
-    errCb = (err) => err;
-  }
-  return function(err) {
-    if(err instanceof selector || err.message === selector.message) {
-      return cb(err);
-    }
-    return errCb(err);
-  }
 }
 
 /**
