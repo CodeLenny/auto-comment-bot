@@ -33,7 +33,7 @@ test("when up to date", t => {
     .get("/meta/outdated/time.svg")
     .expect(302)
     .then(res => {
-      t.is(res.headers.location, "https://img.shields.io/badge/last_deployment-up_to_date-brightgreen.svg");
+      t.is(res.headers.location, "https://img.shields.io/badge/last_deployment-up_to_date-brightgreen.svg?maxAge=120");
     });
 });
 
@@ -50,7 +50,7 @@ test("when 1 commit behind", t => {
     .get("/meta/outdated/time.svg")
     .expect(302)
     .then(res => {
-      t.is(res.headers.location, "https://img.shields.io/badge/last_deployment-2_days_out_of_date-yellow.svg");
+      t.is(res.headers.location, "https://img.shields.io/badge/last_deployment-2_days_out_of_date-yellow.svg?maxAge=120");
     });
 });
 
@@ -76,6 +76,6 @@ test("when multiple commits behind", t => {
     .get("/meta/outdated/time.svg")
     .expect(302)
     .then(res => {
-      t.is(res.headers.location, "https://img.shields.io/badge/last_deployment-a_year_out_of_date-red.svg");
+      t.is(res.headers.location, "https://img.shields.io/badge/last_deployment-a_year_out_of_date-red.svg?maxAge=120");
     });
 });
