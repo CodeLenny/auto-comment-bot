@@ -2,7 +2,7 @@ stages:
   - test
   - deploy
 
-unit-test-node-9:
+unit-test 9 2:
   stage: test
   image: node:9-alpine
   before_script:
@@ -12,7 +12,7 @@ unit-test-node-9:
     - npm run unit-test
     - $(npm bin)/codecov -F unittest
 
-unit-test-node-8:
+unit-test 8 2:
   stage: test
   image: node:8-alpine
   before_script:
@@ -20,7 +20,7 @@ unit-test-node-8:
   script:
     - npm run unit-test
 
-http-test-node-9:
+http-test 9 2:
   stage: test
   image: node:9-alpine
   before_script:
@@ -30,7 +30,7 @@ http-test-node-9:
     - npm run http-test
     - $(npm bin)/codecov -F httptest
 
-http-test-node-8:
+http-test 8 2:
   stage: test
   image: node:8-alpine
   before_script:
