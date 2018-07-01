@@ -6,5 +6,6 @@ notifications:
   disabled: true
 
 script:
-  - npm run unit-test
-  - npm run http-test
+  - npm run ava-unit-test
+  - npm run ava-http-test
+  - npm run jest-unit-test
