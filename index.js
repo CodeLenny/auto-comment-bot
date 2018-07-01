@@ -51,12 +51,15 @@ function renderTemplate(context, template, data) {
   });
 }
 
-function catchError(selector, cb) {
+function catchError(selector, cb, errCb = null) {
+  if(!errCb) {
+    errCb = (err) => err;
+  }
   return function(err) {
     if(err instanceof selector || err.message === selector.message) {
       return cb(err);
     }
-    return err;
+    return errCb(err);
   }
 }
 
@@ -107,7 +110,7 @@ module.exports = app => {
       .chainRej(catchError(RangeError, err => {
         context.log.warn(err);
         return Future.of();
-      }))
+      }, (err) => Future.reject(err)))
       .promise();
   });
 
