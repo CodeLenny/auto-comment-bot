@@ -154,4 +154,28 @@ module.exports = app => {
       .promise();
   });
 
+  meta.get("/outdated/time.svg", (req, res) => {
+    const commits = commitsSinceDate("CodeLenny", "auto-comment-bot", lastModification())
+      .map(commits => {
+        commits = commits
+          .map(commit => new Date(commit.commit.author.date))
+          .sort();
+        if(commits.length < 1) {
+          return "up_to_date-brightgreen";
+        }
+        const first = moment(commits[0]);
+        const last = moment();
+        const diff = moment.duration(last.diff(first));
+        const diffText = diff
+          .humanize()
+          .replace(" ", "_");
+        return `${diffText}_out_of_date-` + (diff.asDays() < 5 ? "yellow" : "red");
+      })
+      .chainRej(err => Future.of(`unknown-red`))
+      .map(right => `last_deployment-${right}`)
+      .map(status => `https://img.shields.io/badge/${status}.svg`)
+      .map(url => res.redirect(url))
+      .promise();
+  });
+
 }
