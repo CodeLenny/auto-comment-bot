@@ -100,12 +100,8 @@ module.exports = app => {
         const post = context.issue({
           body: comment.body,
         });
-        if(isIssue) {
-          return Future.tryP(() => context.github.issues.createComment(post));
-        }
-        else {
-          return Future.tryP(() => context.github.pullRequests.createComment(post));
-        }
+        // (issues.createComment works for both issues and PRs)
+        return Future.tryP(() => context.github.issues.createComment(post));
       })
       .chainRej(catchError(RangeError, err => {
         context.log.warn(err);

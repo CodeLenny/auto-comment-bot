@@ -52,7 +52,7 @@ describe("auto-comment-bot", () => {
 
     expect(github.repos.getContent).not.toHaveBeenCalled();
     expect(github.issues.createComment).not.toHaveBeenCalled();
-    expect(github.pullRequests.createComment).not.toHaveBeenCalled();
+    expect(github.issues.createComment).not.toHaveBeenCalled();
   });
 
   test("only queries the directory if there aren't any templates", async () => {
@@ -69,7 +69,7 @@ describe("auto-comment-bot", () => {
     await app.receive(issueOpenedEvent);
 
     expect(github.issues.createComment).not.toHaveBeenCalled();
-    expect(github.pullRequests.createComment).not.toHaveBeenCalled();
+    expect(github.issues.createComment).not.toHaveBeenCalled();
   });
 
   test("ignores random files inside '.github'", async () => {
@@ -112,8 +112,8 @@ describe("auto-comment-bot", () => {
     );
     await app.receive(pullRequestOpenedEvent);
 
-    expect(github.pullRequests.createComment).toHaveBeenCalledTimes(1);
-    const comment = github.pullRequests.createComment.mock.calls[0][0];
+    expect(github.issues.createComment).toHaveBeenCalledTimes(1);
+    const comment = github.issues.createComment.mock.calls[0][0];
     expect(comment.body).toEqual("This is a test.");
   });
 
@@ -169,7 +169,7 @@ describe("auto-comment-bot", () => {
 
     test("with pull request creation", async () => {
       await app.receive(pullRequestOpenedEvent);
-      const comment = github.pullRequests.createComment.mock.calls[0][0];
+      const comment = github.issues.createComment.mock.calls[0][0];
       expect(comment.body).toEqual(`
         ${pullRequestOpenedEvent.payload.issue.title}
         pull_request
@@ -205,7 +205,7 @@ describe("auto-comment-bot", () => {
 
     test("doesn't post on pull requests", async () => {
       await app.receive(pullRequestOpenedEvent);
-      expect(github.pullRequests.createComment).not.toHaveBeenCalled();
+      expect(github.issues.createComment).not.toHaveBeenCalled();
     });
 
   });
