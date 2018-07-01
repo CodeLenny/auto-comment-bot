@@ -1,9 +1,13 @@
 const Future = require("fluture");
 const path = require("path");
+const moment = require("moment");
 const fm = require("front-matter");
 const ejs = require("ejs");
 const head = require("./lib/head");
 const filterTemplateWhen = require("./lib/filterTemplateWhen");
+const lastModification = require("./lib/lastModification");
+const commitsSinceDate = require("./lib/commitsSinceDate");
+const packageMetadata = require("./package.json");
 
 const TEMPLATE_FILE = /^AUTO_COMMENT/;
 
@@ -104,6 +108,73 @@ module.exports = app => {
         context.log.warn(err);
         return Future.of();
       }))
+      .promise();
+  });
+
+  const meta = app.route("/meta");
+  meta.get("/package.json", (req, res) => {
+    res.json(packageMetadata);
+  });
+
+  meta.get("/version.json", (req, res) => {
+    res.json({
+      version: packageMetadata.version,
+    });
+  });
+
+  meta.get("/last-deployment.json", (req, res) => {
+    return lastModification()
+      .map(modification => {
+        return {
+          deployed: modification.getTime(),
+          ago: moment(modification).fromNow(),
+        };
+      })
+      .map(data => res.json(data))
+      .chainRej(err => {
+        res.status(500).send("Error");
+        return Future.of();
+      })
+      .promise();
+  });
+
+  meta.get("/outdated/commits.svg", (req, res) => {
+    return commitsSinceDate("CodeLenny", "auto-comment-bot", lastModification())
+      .map(commits => commits.length)
+      .map(count => {
+        if(count === 0) {
+          return "up_to_date-brightgreen";
+        }
+        return `${count}_commits_out_of_date-` + (count < 10 ? "yellow" : "red");
+      })
+      .chainRej(err => Future.of(`unknown-red`))
+      .map(right => `last_deployment-${right}`)
+      .map(status => `https://img.shields.io/badge/${status}.svg`)
+      .map(url => res.redirect(url))
+      .promise();
+  });
+
+  meta.get("/outdated/time.svg", (req, res) => {
+    const commits = commitsSinceDate("CodeLenny", "auto-comment-bot", lastModification())
+      .map(commits => {
+        commits = commits
+          .map(commit => new Date(commit.commit.author.date))
+          .sort();
+        if(commits.length < 1) {
+          return "up_to_date-brightgreen";
+        }
+        const first = moment(commits[0]);
+        const last = moment();
+        const diff = moment.duration(last.diff(first));
+        const diffText = diff
+          .humanize()
+          .replace(" ", "_");
+        return `${diffText}_out_of_date-` + (diff.asDays() < 5 ? "yellow" : "red");
+      })
+      .chainRej(err => Future.of(`unknown-red`))
+      .map(right => `last_deployment-${right}`)
+      .map(status => `https://img.shields.io/badge/${status}.svg`)
+      .map(url => res.redirect(url))
       .promise();
   });
 

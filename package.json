@@ -15,7 +15,8 @@
   "scripts": {
     "dev": "nodemon --exec \"npm start\"",
     "start": "probot run ./index.js",
-    "test": "jest --coverage",
+    "unit-test": "jest --coverage",
+    "http-test": "nyc ava",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "jest": {
@@ -23,21 +24,47 @@
       "text",
       "html",
       "lcovonly"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/test/http/",
+      "/test/ava/"
+    ]
+  },
+  "ava": {
+    "files": [
+      "test/http/**/*.js",
+      "test/ava/**/*.js"
+    ]
+  },
+  "nyc": {
+    "reporter": [
+      "text",
+      "html",
+      "lcovonly"
     ]
   },
   "dependencies": {
+    "@octokit/rest": "^15.9.4",
     "ejs": "^2.6.1",
     "fluture": "^8.0.2",
     "front-matter": "^2.3.0",
+    "fs-extra": "^6.0.1",
+    "moment": "^2.22.2",
     "probot": "^7.0.0",
     "sift": "^6.0.0",
     "strip-indent": "^2.0.0"
   },
   "devDependencies": {
+    "ava": "^0.25.0",
     "codecov": "^3.0.2",
+    "express": "^4.16.3",
     "jest": "^22.4.3",
     "nodemon": "^1.17.2",
-    "smee-client": "^1.0.2"
+    "nyc": "^12.0.2",
+    "proxyquire": "^2.0.1",
+    "smee-client": "^1.0.2",
+    "supertest": "^3.1.0"
   },
   "engines": {
     "node": ">= 8.3.0"

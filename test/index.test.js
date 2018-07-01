@@ -1,3 +1,5 @@
+const request = require("supertest");
+const express = require("express");
 const { Application } = require("probot");
 const bunyan = require("bunyan");
 const stripIndent = require("strip-indent");
@@ -204,6 +206,66 @@ describe("auto-comment-bot", () => {
     test("doesn't post on pull requests", async () => {
       await app.receive(pullRequestOpenedEvent);
       expect(github.pullRequests.createComment).not.toHaveBeenCalled();
+    });
+
+  });
+
+  describe("/meta", () => {
+
+    let application;
+
+    beforeEach(() => {
+      application = express();
+      application.use(app.router);
+    });
+
+    describe("/package.json", () => {
+
+      test("returns manifest", () => {
+        return request(application)
+          .get("/meta/package.json")
+          .expect(200)
+          .then(res => {
+            expect(typeof res.body).toEqual("object");
+            expect(res.body.name).toEqual("auto-comment-bot");
+          });
+      });
+
+    });
+
+    describe("/version.json", () => {
+
+      test("returns version", () => {
+        return request(application)
+          .get("/meta/version.json")
+          .expect(200)
+          .then(res => {
+            expect(typeof res.body.version).toEqual("string");
+          });
+      });
+
+    });
+
+    describe("/last-deployment.json", () => {
+
+      test("provides ms since deployment", () => {
+        return request(application)
+          .get("/meta/last-deployment.json")
+          .expect(200)
+          .then(res => {
+            expect(typeof res.body.deployed).toEqual("number");
+          });
+      });
+
+      test("provides English description of time since last modification", () => {
+        return request(application)
+          .get("/meta/last-deployment.json")
+          .expect(200)
+          .then(res => {
+            expect(res.body.ago.indexOf("ago") > -1).toEqual(true);
+          });
+      });
+
     });
 
   });
