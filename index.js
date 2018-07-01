@@ -131,7 +131,10 @@ module.exports = app => {
         };
       })
       .map(data => res.json(data))
-      .mapRej(err => res.status(500).send("Error"))
+      .chainRej(err => {
+        res.status(500).send("Error");
+        return Future.of();
+      })
       .promise();
   });
 
