@@ -8,6 +8,9 @@ auto-comment-bot
   :target: https://gitlab.com/CodeLenny/auto-comment-bot/commits/master
 .. image:: https://codecov.io/gh/CodeLenny/auto-comment-bot/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/CodeLenny/auto-comment-bot
+.. image:: https://badges.greenkeeper.io/CodeLenny/auto-comment-bot.svg
+   :alt: Greenkeeper badge
+   :target: https://greenkeeper.io/
 
 Automatically post comments when issues and pull requests are opened.
 
