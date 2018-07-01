@@ -148,7 +148,7 @@ module.exports = app => {
         return `${count}_commits_out_of_date-` + (count < 10 ? "yellow" : "red");
       })
       .chainRej(err => Future.of(`unknown-red`))
-      .map(right => `deployed-${right}`)
+      .map(right => `last_deployment-${right}`)
       .map(status => `https://img.shields.io/badge/${status}.svg`)
       .map(url => res.redirect(url))
       .promise();
