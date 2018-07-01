@@ -52,3 +52,8 @@ Setup
 * Run ``npm install``
 
 * Run ``npm start``
+
+
+.. image:: https://badges.greenkeeper.io/CodeLenny/auto-comment-bot.svg
+   :alt: Greenkeeper badge
+   :target: https://greenkeeper.io/
