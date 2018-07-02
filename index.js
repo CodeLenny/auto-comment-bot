@@ -138,7 +138,11 @@ module.exports = app => {
       .chainRej(err => Future.of(`unknown-red`))
       .map(right => `last_deployment-${right}`)
       .map(status => `https://img.shields.io/badge/${status}.svg?maxAge=120`)
-      .map(url => res.redirect(url))
+      .map(url => res
+        .set("Cache-Control", "no-cache")
+        .set("Expires", "0")
+        .redirect(url)
+      )
       .promise();
   });
 
@@ -162,7 +166,11 @@ module.exports = app => {
       .chainRej(err => Future.of(`unknown-red`))
       .map(right => `last_deployment-${right}`)
       .map(status => `https://img.shields.io/badge/${status}.svg?maxAge=120`)
-      .map(url => res.redirect(url))
+      .map(url => res
+        .set("Cache-Control", "no-cache")
+        .set("Expires", "0")
+        .redirect(url)
+      )
       .promise();
   });
 
