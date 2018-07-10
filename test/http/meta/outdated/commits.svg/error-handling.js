@@ -30,6 +30,6 @@ test("when error thrown", t => {
     .get("/meta/outdated/commits.svg")
     .expect(302)
     .then(res => {
-      t.is(res.headers.location, "https://img.shields.io/badge/last_deployment-unknown-red.svg");
+      t.is(res.headers.location, "https://img.shields.io/badge/last_deployment-unknown-red.svg?maxAge=120");
     });
 });

@@ -63,12 +63,12 @@ module.exports = app => {
     "pull_request.opened",
   ], context => {
 
-    const action = context.event.event + (context.payload.action ? "." + context.payload.action : "");
+    const action = context.event + (context.payload.action ? "." + context.payload.action : "");
     const isIssue = action === "issues.opened";
     const isPullRequest = action === "pull_request.opened";
 
     const data = {
-      event: context.event.event,
+      event: context.event,
       action,
       payload: context.payload,
     };
@@ -137,8 +137,12 @@ module.exports = app => {
       })
       .chainRej(err => Future.of(`unknown-red`))
       .map(right => `last_deployment-${right}`)
-      .map(status => `https://img.shields.io/badge/${status}.svg`)
-      .map(url => res.redirect(url))
+      .map(status => `https://img.shields.io/badge/${status}.svg?maxAge=120`)
+      .map(url => res
+        .set("Cache-Control", "no-cache")
+        .set("Expires", "0")
+        .redirect(url)
+      )
       .promise();
   });
 
@@ -161,8 +165,12 @@ module.exports = app => {
       })
       .chainRej(err => Future.of(`unknown-red`))
       .map(right => `last_deployment-${right}`)
-      .map(status => `https://img.shields.io/badge/${status}.svg`)
-      .map(url => res.redirect(url))
+      .map(status => `https://img.shields.io/badge/${status}.svg?maxAge=120`)
+      .map(url => res
+        .set("Cache-Control", "no-cache")
+        .set("Expires", "0")
+        .redirect(url)
+      )
       .promise();
   });
 
