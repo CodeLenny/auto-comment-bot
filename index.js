@@ -63,12 +63,12 @@ module.exports = app => {
     "pull_request.opened",
   ], context => {
 
-    const action = context.event.event + (context.payload.action ? "." + context.payload.action : "");
+    const action = context.event + (context.payload.action ? "." + context.payload.action : "");
     const isIssue = action === "issues.opened";
     const isPullRequest = action === "pull_request.opened";
 
     const data = {
-      event: context.event.event,
+      event: context.event,
       action,
       payload: context.payload,
     };
