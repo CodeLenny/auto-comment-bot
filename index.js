@@ -73,6 +73,12 @@ module.exports = app => {
       payload: context.payload,
     };
 
+    if(isIssue || isPullRequest) {
+      data.thread = {
+        title: isIssue ? context.payload.issue.title : context.payload.pull_request.title,
+      };
+    }
+
     return getAllTemplates(context)
       .map(templates => templates.filter(template => filterTemplateWhen(template, data)))
       .chain(templates => Future.parallel(Infinity, templates.map(template => renderTemplate(context, template, data))))

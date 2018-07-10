@@ -146,7 +146,7 @@ describe("auto-comment-bot", () => {
 
     beforeEach(() => {
       template = `
-        <%= payload.issue.title %>
+        <%= thread.title %>
         <%= event %>
         <%= action %>
       `;
@@ -171,7 +171,7 @@ describe("auto-comment-bot", () => {
       await app.receive(pullRequestOpenedEvent);
       const comment = github.issues.createComment.mock.calls[0][0];
       expect(comment.body).toEqual(`
-        ${pullRequestOpenedEvent.payload.issue.title}
+        ${pullRequestOpenedEvent.payload.pull_request.title}
         pull_request
         pull_request.opened
       `);
