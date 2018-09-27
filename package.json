@@ -46,7 +46,7 @@
     ]
   },
   "dependencies": {
-    "@octokit/rest": "^15.9.4",
+    "@octokit/rest": "^15.12.1",
     "ejs": "^2.6.1",
     "fluture": "^8.0.2",
     "front-matter": "^2.3.0",
