@@ -52,7 +52,7 @@
     "front-matter": "^2.3.0",
     "fs-extra": "^6.0.1",
     "moment": "^2.22.2",
-    "probot": "^7.0.1",
+    "probot": "^9.0.1",
     "sift": "^6.0.0",
     "strip-indent": "^2.0.0"
   },
