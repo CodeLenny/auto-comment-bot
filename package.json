@@ -54,7 +54,7 @@
     "moment": "^2.22.2",
     "probot": "^7.0.1",
     "sift": "^6.0.0",
-    "strip-indent": "^2.0.0"
+    "strip-indent": "^3.0.0"
   },
   "devDependencies": {
     "ava": "^1.0.1",
