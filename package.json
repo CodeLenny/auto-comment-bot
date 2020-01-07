@@ -48,7 +48,7 @@
   "dependencies": {
     "@octokit/rest": "^15.9.4",
     "ejs": "^2.6.1",
-    "fluture": "^8.0.2",
+    "fluture": "^12.1.0",
     "front-matter": "^2.3.0",
     "fs-extra": "^6.0.1",
     "moment": "^2.22.2",
