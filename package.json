@@ -57,7 +57,7 @@
     "strip-indent": "^2.0.0"
   },
   "devDependencies": {
-    "ava": "^1.0.1",
+    "ava": "^3.5.1",
     "codecov": "^3.0.4",
     "express": "^4.16.3",
     "jest": "^23.2.0",
